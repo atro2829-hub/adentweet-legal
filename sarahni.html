@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#FFFFFF" />
+    <title>صندوق صارحني | AdenTweet</title>
+    <style>
+      :root { color: #0b0c10; background: #ffffff; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; background: #ffffff; }
+      main { width: min(640px, calc(100% - 32px)); margin: 0 auto; padding: 44px 0 56px; }
+      .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #0b0c10; font-weight: 900; font-size: 18px; }
+      .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: #0b0c10; color: #b8ff35; }
+      .card { margin-top: 36px; padding: clamp(22px, 6vw, 36px); border: 1px solid #e3e4df; border-radius: 28px; background: #f7f7f5; }
+      .eyebrow { margin: 0 0 8px; color: #686b73; font-size: 13px; font-weight: 800; }
+      h1 { margin: 0; font-size: clamp(29px, 8vw, 44px); line-height: 1.15; letter-spacing: -0.035em; }
+      .lead { color: #686b73; line-height: 1.85; margin: 14px 0 26px; }
+      label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 800; }
+      textarea { width: 100%; min-height: 168px; resize: vertical; border: 1px solid #d7d8d3; border-radius: 16px; padding: 14px; color: #0b0c10; background: #ffffff; font: inherit; line-height: 1.7; }
+      textarea:focus { outline: 3px solid rgba(184, 255, 53, .65); border-color: #0b0c10; }
+      .meta { display: flex; justify-content: space-between; gap: 12px; margin: 9px 0 22px; color: #686b73; font-size: 12px; }
+      .button { width: 100%; min-height: 52px; border: 0; border-radius: 26px; background: #b8ff35; color: #0b0c10; font: inherit; font-weight: 900; font-size: 15px; cursor: pointer; }
+      .button:focus-visible { outline: 3px solid #0b0c10; outline-offset: 3px; }
+      .notice { margin: 18px 0 0; color: #686b73; font-size: 13px; line-height: 1.75; }
+      .status { min-height: 20px; margin: 14px 0 0; color: #d93b3b; font-size: 13px; font-weight: 700; }
+      footer { margin-top: 24px; color: #686b73; font-size: 12px; line-height: 1.7; }
+      @media (max-width: 420px) { main { padding-top: 28px; } .card { margin-top: 28px; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="brand" href="./index.html" aria-label="AdenTweet">
+        <span class="brand-mark">A</span><span>AdenTweet</span>
+      </a>
+      <section class="card" aria-labelledby="title">
+        <p class="eyebrow">رسالة مجهولة</p>
+        <h1 id="title">صندوق صارحني</h1>
+        <p id="lead" class="lead">اكتب رسالة محترمة ليتم إعدادها للإرسال إلى صاحب الصندوق.</p>
+        <form id="form">
+          <label for="message">رسالتك</label>
+          <textarea id="message" maxlength="1000" placeholder="اكتب رسالتك باحترام…" required></textarea>
+          <div class="meta"><span>لن يظهر اسمك لصاحب الصندوق.</span><span id="counter">0 / 1000</span></div>
+          <button id="send" class="button" type="submit">المتابعة لإرسال الرسالة</button>
+          <p id="status" class="status" role="status"></p>
+        </form>
+        <p class="notice">تُفتح شاشة الإرسال في تطبيق AdenTweet للحفاظ على سلامة الصندوق والحد من إساءة الاستخدام. لا تُعرض هوية المرسل للمستلم.</p>
+      </section>
+      <footer>بالإرسال، توافق على الالتزام بقواعد مجتمع AdenTweet وعدم إرسال محتوى مسيء أو غير قانوني.</footer>
+    </main>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const username = (params.get("to") || "").trim().toLowerCase();
+      const message = document.getElementById("message");
+      const counter = document.getElementById("counter");
+      const title = document.getElementById("title");
+      const lead = document.getElementById("lead");
+      const status = document.getElementById("status");
+      const send = document.getElementById("send");
+      const validUsername = /^[a-z0-9_]{3,32}$/.test(username);
+
+      if (!validUsername) {
+        title.textContent = "رابط صندوق غير مكتمل";
+        lead.textContent = "تحقق من الرابط الذي تمت مشاركته معك ثم حاول مجددًا.";
+        send.disabled = true;
+        status.textContent = "اسم المستخدم غير صالح.";
+      } else {
+        title.textContent = "أرسل رسالة مجهولة إلى @" + username;
+      }
+
+      message.addEventListener("input", () => { counter.textContent = message.value.length + " / 1000"; });
+      document.getElementById("form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!validUsername || !message.value.trim()) return;
+        const deepLink = "adentweet://sarahni/" + encodeURIComponent(username) + "?message=" + encodeURIComponent(message.value.trim());
+        window.location.href = deepLink;
+        window.setTimeout(() => {
+          status.textContent = "إذا لم يُفتح التطبيق، ثبّت AdenTweet ثم افتح الرابط مرة أخرى.";
+        }, 1100);
+      });
+    </script>
+  </body>
+</html>
