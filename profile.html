@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#FFFFFF" />
+    <title>ملف شخصي | AdenTweet</title>
+    <style>
+      :root { color: #0b0c10; background: #ffffff; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; } * { box-sizing: border-box; } body { margin: 0; min-height: 100vh; } main { width: min(640px, calc(100% - 32px)); margin: 0 auto; padding: 44px 0; } .brand { display:flex; align-items:center; gap:10px; color:#0b0c10; font-size:18px; font-weight:900; text-decoration:none; } .mark { display:grid; place-items:center; width:38px; height:38px; border-radius:50%; background:#0b0c10; color:#b8ff35; } .card { margin-top:36px; padding:clamp(24px,6vw,38px); border:1px solid #e3e4df; border-radius:28px; background:#f7f7f5; } .eyebrow { margin:0 0 8px; color:#686b73; font-size:13px; font-weight:800; } h1 { margin:0; font-size:clamp(29px,8vw,42px); line-height:1.15; letter-spacing:-.035em; } p { color:#686b73; line-height:1.8; } .button { display:block; width:100%; margin-top:26px; padding:16px; border-radius:28px; background:#b8ff35; color:#0b0c10; font-weight:900; text-align:center; text-decoration:none; } .meta { margin-top:18px; font-size:12px; } footer { margin-top:22px; color:#686b73; font-size:12px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="brand" href="./index.html" aria-label="AdenTweet"><span class="mark">A</span><span>AdenTweet</span></a>
+      <section class="card"><p class="eyebrow">ملف شخصي مشارك</p><h1 id="title">شاهد الملف في AdenTweet</h1><p id="lead">افتح الملف في التطبيق للمتابعة والتواصل ومشاهدة المنشورات العامة.</p><a id="open" class="button" href="adentweet://">فتح الملف في AdenTweet</a><p id="status" class="meta"></p></section>
+      <footer>محادثات عربية أولاً، باحترام وخصوصية.</footer>
+    </main>
+    <script>
+      const username = (new URLSearchParams(location.search).get("u") || "").trim().toLowerCase();
+      const valid = /^[a-z0-9_]{3,32}$/.test(username); const open = document.getElementById("open");
+      if (valid) { open.href = "adentweet://profile/" + encodeURIComponent(username); document.getElementById("title").textContent = "ملف @" + username + " في AdenTweet"; document.getElementById("status").textContent = "الملف العام: @" + username; }
+      else { document.getElementById("title").textContent = "رابط ملف غير مكتمل"; document.getElementById("lead").textContent = "تحقق من الرابط ثم حاول مجددًا."; open.removeAttribute("href"); open.style.opacity = ".45"; }
+    </script>
+  </body>
+</html>
