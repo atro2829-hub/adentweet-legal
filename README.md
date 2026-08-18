@@ -1,17 +1,20 @@
-# AdenTweet Legal Pages
+# AdenTweet Legal Center
 
-Official public-facing legal pages for AdenTweet by Mohammed Al-Qutaibi / QTBM DEV.
+This repository contains the public-facing legal pages and Google Play release-preparation materials for AdenTweet.
 
-The site contains privacy, terms, community guidelines, and contact pages. It is intentionally static and never contains Supabase service-role credentials. The Android application remains the source of authenticated data and reads only public organization/legal configuration. Any update to organization settings should be reviewed and published through the controlled GitHub workflow.
+| Public page | Purpose |
+|---|---|
+| `privacy.html` | Privacy Policy and data-processing disclosure |
+| `terms.html` | Terms of Use |
+| `community-guidelines.html` | Content, safety, and moderation standards |
+| `data-deletion.html` | Account and data deletion instructions |
+| `contact.html` | Privacy, safety, and legal contact channel |
+| `google-play-data-safety.md` | Draft Data Safety and release checklist for Play Console |
 
-## Pages
+## Publication
 
-- `index.html` — legal hub
-- `privacy.html` — privacy notice
-- `terms.html` — terms of use
-- `community-guidelines.html` — safety standards
-- `contact.html` — support contact
+This repository is public. Enable GitHub Pages from the default branch and use the resulting HTTPS address as the public privacy-policy URL. After Pages is live, set `homepageUrl` to the legal hub and update the `ADENTWEET_LEGAL_URL` value in the mobile project to that exact public URL. Do not publish secrets, OAuth credentials, database URLs, production review credentials, or private user data in this repository.
 
-## Publishing
+## Review note
 
-This repository is prepared for GitHub Pages. Before public release, set the final repository visibility and Pages source in GitHub, then place the resulting public URL in the Supabase `app_settings` record and the Android app configuration. Do not expose private tokens in static files.
+These are working documents for legal and operational review. Update them before release when the production domain, business entity, support email, retention requirements, third-party SDKs, advertising status, or data flows change.
